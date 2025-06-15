@@ -1,13 +1,18 @@
-# Use official Node.js image
-FROM node:18
+# Dockerfile
+FROM node:18-alpine
 
 # Create app directory
 WORKDIR /app
 
-# Copy app files
+# Install dependencies
 COPY package*.json ./
 RUN npm install
+
+# Copy the rest of the app
 COPY . .
 
-# Start the app
-CMD ["npm", "start"]
+# Run tests (по желание)
+# RUN npm test
+
+EXPOSE 3000
+CMD ["node", "index.js"]
