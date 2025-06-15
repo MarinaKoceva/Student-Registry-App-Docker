@@ -34,10 +34,11 @@ pipeline {
 
         stage('Push Docker image') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_PASSWORD')]) {
-                    bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
-                    bat "docker push %DOCKER_IMAGE%:%TAG%"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
+                bat "docker push %DOCKER_IMAGE%:%TAG%"
                 }
+
             }
         }
 
