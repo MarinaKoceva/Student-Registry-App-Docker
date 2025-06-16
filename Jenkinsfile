@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/MarinaKoceva/Student-Registry-App-Docker.git'
             }
         }
 
@@ -34,11 +34,10 @@ pipeline {
 
         stage('Push Docker image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
-                bat "docker push %DOCKER_IMAGE%:%TAG%"
+                withCredentials([usernamePassword(credentialsId: 'DOCKER_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
+                    bat "docker push %DOCKER_IMAGE%:%TAG%"
                 }
-
             }
         }
 
