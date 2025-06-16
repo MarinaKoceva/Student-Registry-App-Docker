@@ -43,8 +43,10 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                bat 'docker-compose down || exit 0'
                 bat 'docker-compose -f docker-compose.yml up -d'
             }
         }
+
     }
 }
